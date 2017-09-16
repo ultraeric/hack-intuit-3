@@ -37,7 +37,7 @@ function advise(id, msg) {
                     'Cooking food is significantly cheaper than eating out!' ,
                     'Keep a close eye on your expenses and spending habits.',
                     'Everything in moderation.')
-  return _.sample(advice);
+  return advice[Math.floor(Math.random()*advice.length)];
 }
 
 // Returns your progress to your financial goal
