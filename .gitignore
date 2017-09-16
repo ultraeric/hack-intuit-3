@@ -10,3 +10,4 @@ public/bundle.js.gz
 deploy/*
 *.swp
 *.sw*
+messenger-bot/.env

@@ -38,7 +38,6 @@ global.document = {
 
 /* GZIP everything */
 function sendBase(req, res, next) {
-  console.log('sendBase');
   fs.readFile(__dirname + '/../public/index.html', 'utf8', function (error, docData) {
     if (error) throw error;
     res.writeHead(200, {'Content-Type': 'text/html', 'Content-Encoding': 'gzip'});
@@ -54,8 +53,9 @@ function sendBase(req, res, next) {
   });
 }
 
+addMessengerHooks(app);
+
 app.all('*', function(req, res, next) {
-  console.log('app.all(\'*\')')
   if (req.path.startsWith('/newuser') || req.path.startsWith('/computers')) {
     res.redirect('https://' + req.hostname + ':' + legacyPort + req.path);
     return;
@@ -65,7 +65,6 @@ app.all('*', function(req, res, next) {
   }
 });
 
-// addMessengerHooks(app);
 
 app.use(favicon(path.join(__dirname, '/../public/static/images/logos/favicon.ico')));
 
@@ -84,14 +83,12 @@ app.use(favicon(path.join(__dirname, '/../public/static/images/logos/favicon.ico
 // });
 
 app.get('/', function() {
-  console.log('get \/');
   sendBase(...arguments);
 });
 
 app.use(express.static('public'));
 
 app.get('*', function() {
-  console.log('FUCK NODE.JS *');
   sendBase(...arguments);
 });
 
@@ -100,7 +97,6 @@ sslServer.listen(sslPort,
 );
 
 server.get('*', function(req, res) {
-  console.log('(node js is for poopoostinkies) server *');
   res.redirect('https://' + req.hostname + ':' + sslPort);
 });
 
