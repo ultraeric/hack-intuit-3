@@ -1,6 +1,6 @@
 import processing from './processing';
-function decisionHandler(id, msg, db) {
-  let result = processing(id, msg, db);
+function decisionHandler(id, msg, db, sendTextMessage) {
+  let result = processing(id, msg, db, sendTextMessage);
   if (result) {
     return result;
   } else {
@@ -14,7 +14,7 @@ function decisionHandler(id, msg, db) {
     } else if (msg.includes('log')) {
       return goal(id, msg, db)
     } else if (msg.includes('average')) {
-      return log(id, msg, db)  
+      return log(id, msg, db)
     }
   }
 }
