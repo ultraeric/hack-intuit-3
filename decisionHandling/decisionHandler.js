@@ -36,7 +36,13 @@ function advise(id, msg) {
                     'Hold off on purchases that you don\'t need.' ,
                     'Cooking food is significantly cheaper than eating out!' ,
                     'Keep a close eye on your expenses and spending habits.',
-                    'Everything in moderation.')
+                    'Everything in moderation.',
+                    'http://www.investopedia.com/articles/younginvestors/08/eight-tips.asp',
+                    'https://www.themuse.com/advice/50-personal-finance-tips-that-will-change-the-way-you-think-about-money',
+                    'https://www.thebalance.com/top-ten-financial-tips-1289309',
+                    'https://www.forbes.com/sites/jamiehopkins/2016/12/15/expert-financial-planning-tips-for-2017/#3d72083d4eac',
+                    'https://www.mint.com/personal-finance-4/personal-finance-tips-from-billionaires',
+                  )
   return advice[Math.floor(Math.random()*advice.length)];
 }
 
