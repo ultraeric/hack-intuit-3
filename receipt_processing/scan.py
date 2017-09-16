@@ -38,7 +38,6 @@ def processImage(url):
 
     prices = []
     for tote in total:
-        # print(tote)
         for word in tote.split():
             if re.match(regex, word):
                 try:
