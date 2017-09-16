@@ -4,7 +4,7 @@ var db = new sqlite3.Database(':memory:');
 const { spawn } = require('child_process');
 
 db.run("CREATE TABLE users (id TEXT, name TEXT, country TEXT, race TEXT, age TEXT,\
-        citizenship TEXT, origin TEXT, housing TEXT, gender TEXT, income TEXT, state TEXT,
+        citizenship TEXT, origin TEXT, housing TEXT, gender TEXT, income TEXT, state TEXT,\
         riskFactor TEXT)");
 db.run("CREATE TABLE transactions (id TEXT, date TEXT, amount TEXT)");
 db.run("CREATE TABLE goals (id TEXT, item TEXT, cost TEXT)");
