@@ -44,7 +44,7 @@ function processing(id, msg, db, sendTextMessage) {
 
         const python = spawn('python3', ['./dataProcessing/dataProcessing.py',
           JSON.stringify(passObj)]);
-        python.on('data', (data) => {
+        python.stdout.on('data', (data) => {
           var data = JSON.parse(data).data;
           if (data[0] && data[1]) {
             'Recurs every: ' + data[0].toString() + ' days.  ' +
@@ -65,7 +65,7 @@ function processing(id, msg, db, sendTextMessage) {
 
         const python = spawn('python3', ['./dataProcessing/dataProcessing.py',
           JSON.stringify(passObj)]);
-        python.on('data', (data) => {
+        python.stdout.on('data', (data) => {
           var data = JSON.parse(data).data;
           if (data[0]) {
             sendTextMessage(id, 'Max spent of: ' + data[0].toString());
