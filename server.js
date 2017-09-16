@@ -113,7 +113,7 @@ sslServer.listen(sslPort,
   () => console.log('Node/express SSL server started on port ' + sslPort)
 );
 
-server.get('*', function(req, res) {
+regApp.get('*', function(req, res) {
   res.redirect('https://' + req.hostname + ':' + sslPort);
 });
 
