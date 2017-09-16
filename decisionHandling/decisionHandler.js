@@ -31,7 +31,13 @@ function help(id, msg) {
 
 // Returns financial advice!
 function advise(id, msg) {
-  return 'Placeholder advise!';
+  var advice = Array('Save early and spend less! It will pay off in the long run.',
+                    'It\'s never too early to start investing!' ,
+                    'Hold off on purchases that you don\'t need.' ,
+                    'Cooking food is significantly cheaper than eating out!' ,
+                    'Keep a close eye on your expenses and spending habits.',
+                    'Everything in moderation.')
+  return _.sample(advice);
 }
 
 // Returns your progress to your financial goal
