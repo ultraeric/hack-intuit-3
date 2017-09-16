@@ -1,5 +1,6 @@
 import processing from './processing';
 function decisionHandler(id, msg, db, sendTextMessage) {
+  msg = msg.toLowerCase();
   let result = processing(id, msg, db, sendTextMessage);
   if (result) {
     return result;
