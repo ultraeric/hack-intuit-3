@@ -3,7 +3,7 @@ import json
 import statistics
 import numpy
 
-#json = sys.argv[1]
+json = sys.argv[1]
 
 def findAveragePerDay(data):
     maxDate = max(transaction["date"] for transaction in data["transactions"])
@@ -22,7 +22,10 @@ def findRecurring(data, start, end):
         if transaction["date"] <= end and transaction["date"] >= start:
             spentPerDay[transaction["date"] - start] += transaction["amount"]
     correlation = numpy.correlate(spentPerDay, spentPerDay, "same")
-    return correlation
+    zeroShiftIndex = numpy.argmax(correlation)
+    shiftedCorrelation = numpy.hstack((correlation[zeroShiftIndex:], correlation[:zeroShiftIndex]))
+    newCorrelation = numpy.delete(shiftedCorrelation, 0)
+    return numpy.argmax(newCorrelation) + 1, max(newCorrelation)
 
 def timeUntilGoal(data):
     dailyAverage = findAveragePerDay(data)
@@ -33,9 +36,9 @@ def timeUntilGoal(data):
 
 
 
-data = {"query": "goal", "duration": {"start": 0, "end": 5}, "transactions": [{"date": 1, "amount": 1}, {"date": 1, "amount": 1}, {"date": 3, "amount": 5}, {"date": 2, "amount": 1}, {"date": 1, "amount": 1}, {"date": 1, "amount": 2}, {"date": 7, "amount": 10}], "goal": 100, "income": 10}
+#data = {"query": "recurring", "duration": {"start": 0, "end": 5}, "transactions": [{"date": 1, "amount": 1}, {"date": 1, "amount": 1}, {"date": 3, "amount": 5}, {"date": 2, "amount": 1}, {"date": 1, "amount": 1}, {"date": 1, "amount": 2}, {"date": 7, "amount": 10}], "goal": 100, "income": 10}
 
-#data = json.loads(json)
+data = json.loads(json)
 callType = data["query"]
 start = data["duration"]["start"]
 end = data["duration"]["end"]
