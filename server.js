@@ -59,6 +59,9 @@ function sendBase(req, res, next) {
 
 // Gets called whenever a message / image is received.
 function callback(id, json) {
+  if (id === 1476525979102735) {
+    return;
+  }
   if (json.type === 'text') {
 
   } else {
