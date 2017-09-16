@@ -29,16 +29,6 @@ function addIO(server) {
       );
     });
     socket.on('newUser', function(data) {
-      setTimeout(() => {
-        const python = spawn('python3', ['../riskFactors/riskFactors.py',
-          parseDataToString(data.state),
-          parseDataToString(data.age)]);
-
-        try {
-          console.log('hello');
-          python.stdout.on('data', function (data) {
-          console.log('stdout data', data);
-          var risk = JSON.parse(data).risk;
           db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
                         parseDataToString(data.name) + '", "' +
                         parseDataToString(data.country) + '", "' +
@@ -50,8 +40,6 @@ function addIO(server) {
                         parseDataToString(data.gender) + '", "' +
                         parseDataToString(data.income) + '", "' +
                         parseDataToString(data.state)
-                        + '", "' +
-                        parseDataToString(risk)
                         + '")'
                       );
             python.stderr.on('data', (data) => {
@@ -59,10 +47,6 @@ function addIO(server) {
             })
             socket.emit('redirectHome', {data: true});
           });
-        } catch (exception) {
-          console.log('exception', exception);
-        }
-      }, 0);
     //   const python = spawn('python3', ['../riskFactors/riskFactors.py',
     //     parseDataToString(data.state),
     //     parseDataToString(data.age)]);
@@ -95,7 +79,6 @@ function addIO(server) {
     // } catch (exception) {
     //   console.log('exception', exception);
     // }
-    });
     socket.on('getUser',
     function (data) {
       db.get('SELECT * FROM users WHERE id = ' + parseDataToString(data.id), [],
