@@ -66,7 +66,7 @@ function callback(id, json) {
 
   } else {
     sendTextMessage(id, 'Processing your receipt now.');
-    const python = spawn('sudo', ['python3', './receipt_processing/scan.py', json.payload.url]);
+    const python = spawn('python3', ['./receipt_processing/scan.py', json.payload.url]);
     python.stdout.on('data', (data) => {
       sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
     });
