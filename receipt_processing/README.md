@@ -14,7 +14,7 @@ TOTAL 14.23
 ```
 
 ### TODO - Future Impl:
-- Train Tesseract to better recognize receipt font: seems to be trained on more traditional fonts (Arial, Helvetica, TNR)
+- Train Tesseract to better recognize monospaced receipt fonts: currently seems to be trained on more traditional fonts (Arial, Helvetica, TNR)
 - Itemize reciept and return full dictionary mapping items to prices
 - Extract date of purchase from receipt; alternatively timestamp on upload
 - Extract place of purchase, either w/ receipt or geolocation ping
