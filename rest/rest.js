@@ -29,7 +29,7 @@ function addIO(server) {
     socket.on('newUser', function(data) {
       const python = spawn('python3', ['./riskFactors/riskFactors.py',
         JSON.stringify({state: parseDataToString(data.state),
-          age: parseInt(parseDataToString(data.age))})]);
+        age: parseInt(parseDataToString(data.age))})]);
       python.on('data', (data) => {
         var risk = JSON.parse(data).risk;
         db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
