@@ -4,7 +4,6 @@ import pytesseract
 import regex as re
 import socket
 import sys
-from urllib import request
 from requests import get
 
 try:
