@@ -31,7 +31,6 @@ def processImage(url):
     for line in receipt:
         print(line)
 
-    prices = []
     for match in matches:
         print(match)
     for tote in total:
@@ -43,10 +42,10 @@ def processImage(url):
                 except:
                     continue
 
-    #print("Detected total: {}".format(max(prices)))
     os.remove('image')
     total = {}
     try:
+        print("Detected total: {}".format(max(prices)))
         total['total'] = max(prices)
     except:
         return None
