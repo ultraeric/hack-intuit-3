@@ -6,21 +6,28 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
+const fs = require('fs');
 var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
+
+const PAGE_ACCESS_TOKEN = String(fs.readFileSync('./messenger-bot/PAGE_ACCESS_TOKEN')).replace(/^\s+|\s+$/gm,'');
+const VERIFY_TOKEN = String(fs.readFileSync('./messenger-bot/VERIFY_TOKEN')).replace(/^\s+|\s+$/gm,'');
+
+console.log('VERIFY_TOKEN="%s"', VERIFY_TOKEN);
+console.log('PAGE_ACCESS_TOKEN="%s"', PAGE_ACCESS_TOKEN);
 
 // The rest of the code implements the routes for our Express server.
 // let app = express();
 // 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({
-//   extended: true
-// }));
 
 function addMessengerHooks(app) {
   // Webhook validation
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
   app.get('/webhook', function(req, res) {
     if (req.query['hub.mode'] === 'subscribe' &&
-        req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
+        req.query['hub.verify_token'] === VERIFY_TOKEN) {
       console.log("Validating webhook");
       res.status(200).send(req.query['hub.challenge']);
     } else {
@@ -182,7 +189,7 @@ function sendGenericMessage(recipientId) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+    qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'POST',
     json: messageData
 
