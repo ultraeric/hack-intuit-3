@@ -1,6 +1,7 @@
 import sys
 import json
 import statistics
+import heapq
 import numpy
 
 json = sys.argv[1]
@@ -25,7 +26,7 @@ def findRecurring(data, start, end):
     zeroShiftIndex = numpy.argmax(correlation)
     shiftedCorrelation = numpy.hstack((correlation[zeroShiftIndex:], correlation[:zeroShiftIndex]))
     newCorrelation = numpy.delete(shiftedCorrelation, 0)
-    return numpy.argmax(newCorrelation) + 1, max(newCorrelation)
+    return int(numpy.argmax(newCorrelation)) + 1, max(newCorrelation)
 
 def timeUntilGoal(data):
     dailyAverage = findAveragePerDay(data)
@@ -50,4 +51,4 @@ elif callType == "goal":
     returnedObj = timeUntilGoal(data)
 else:
     returnedObj = None
-print (returnedObj)
+print (json.dumps({"data": list(returnedObj)}))
