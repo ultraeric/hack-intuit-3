@@ -10,26 +10,26 @@ function returnAll(initMsg, repeatMsg, rows) {
 }
 
 function processing(id, msg, db, sendTextMessage) {
-  console.log('hit');
   if (msg.includes('spending')
         && msg.includes('over')
         && (msg.includes('past') || msg.includes('last'))) {
           if (msg.includes('week')) {
+            console.log('hit');
             db.all('SELECT amount FROM transactions WHERE date > 24 AND date <= 30 AND id=' + id.toString(),
             (rows) => {
               if (rows) {
-                return returnAll('Your past week\'s transactions: ', ',   Used $', rows);
+                sendTextMessage(id, returnAll('Your past week\'s transactions: ', ',   Used $', rows));
               } else {
-                return 'No transactions.';
+                sendTextMessage(id, 'No transactions.');
               }
             });
           } else {
-            db.all('SELECT * FROM transactions WHERE date > 24 AND date <= 30',
+            db.all('SELECT * FROM transactions WHERE id='  + id.toString(),
             (rows) => {
               if (rows) {
-                returnAll('Your past week\'s transactions: ', ' Used $', rows);
+                sendTextMessage(id, returnAll('Your past week\'s transactions: ', ' Used $', rows));
               } else {
-                return 'No transactions';
+                sendTextMessage(id, 'No transactions');
               }
             });
           }
