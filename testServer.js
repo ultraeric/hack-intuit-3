@@ -1,6 +1,7 @@
 import express from 'express';
 import favicon from 'serve-favicon';
 import {MongoClient, ObjectID} from 'mongodb';
+import sqlite3 from 'sqlite3';
 import fs from 'fs';
 import path from 'path';
 import zlib from 'zlib';
@@ -11,6 +12,8 @@ import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {StaticRouter} from 'react-router';
 
+var db = new sqlite3.Database(':memory:');
+
 var port = 8081;
 var legacyPort = 8080;
 
@@ -19,23 +22,25 @@ global.window = {
   scrollTo: () => {}
 };
 global.document = {
-  addEventListener: () => {}
+  addEventListener: () => {},
+  createElement: () => {}
 };
+global.isTest = true;
 
-var AppComponent = require('./src/App').default;
+// var AppComponent = require('./src/App').default;
 
 /* GZIP everything */
 function sendBase(req, res, next) {
   fs.readFile(__dirname + '/../public/index.html', 'utf8', function (error, docData) {
     if (error) throw error;
     res.writeHead(200, {'Content-Type': 'text/html', 'Content-Encoding': 'gzip'});
-    const AppElement = ReactDOMServer.renderToString(
-                        <StaticRouter location={req.url} context={{}}>
-                          <AppComponent/>
-                        </StaticRouter>
-                      );
-    const document = docData.replace(/<div id="app"><\/div>/,`<div id="app">${AppElement}</div>`);
-    zlib.gzip(document, function (_, result) {
+    // const AppElement = ReactDOMServer.renderToString(
+    //                     <StaticRouter location={req.url} context={{}}>
+    //                       <AppComponent/>
+    //                     </StaticRouter>
+    //                   );
+    // const document = docData.replace(/<div id="app"><\/div>/,`<div id="app">${AppElement}</div>`);
+    zlib.gzip(docData, function (_, result) {
       res.end(result);
     });
   });

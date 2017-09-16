@@ -10,3 +10,9 @@
 .content-container {
   margin-bottom: 50px;
 }
+
+*.button.ripple-container {
+  background-color: $accent-color;
+}
+
+@import './Footer/style.scss';

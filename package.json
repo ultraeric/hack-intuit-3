@@ -16,12 +16,14 @@
     "guac-hoc": "^0.1.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-facebook": "^4.0.14",
+    "react-facebook-login": "^3.6.2",
     "react-lazy-load": "^3.0.12",
     "react-redux": "^5.0.6",
     "react-router": "^4.1.2",
     "react-router-dom": "^4.1.2",
     "redux": "^3.7.2",
-    "yui-md": "^0.1.12"
+    "yui-md": "^0.1.13"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -52,6 +54,7 @@
     "serve-favicon": "^2.4.3",
     "socket.io": "^2.0.3",
     "source-list-map": "^2.0.0",
+    "sqlite3": "^3.1.11",
     "style-loader": "^0.18.2",
     "svg-react-loader": "^0.4.4",
     "uglify-es-webpack-plugin": "^0.10.0",
