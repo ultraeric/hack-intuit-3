@@ -93,16 +93,6 @@ function callback(id, json) {
 addIO(sslServer);
 addMessengerHooks(app, callback);
 
-app.all('*', function(req, res, next) {
-  if (req.path.startsWith('/newuser') || req.path.startsWith('/computers')) {
-    res.redirect('https://' + req.hostname + ':' + legacyPort + req.path);
-    return;
-  }
-  if (req.secure) {
-    return next();
-  }
-});
-
 
 app.use(favicon(path.join(__dirname, '/../public/static/images/logos/favicon.ico')));
 
