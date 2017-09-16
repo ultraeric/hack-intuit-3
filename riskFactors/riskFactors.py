@@ -4,10 +4,10 @@ import numpy as np
 import json
 import sys
 
-argum = json.loads(sys.argv[1])
+argum = [sys.argv[1], sys.argv[2]]
 #read csv file
 results = np.genfromtxt('USA_All_States.csv', delimiter=",")
-#[[ageCategory, above/below, columnIndex], ....] 
+#[[ageCategory, above/below, columnIndex], ....]
 #ageCategory = refer to paper, below = 0, above = 1
 columnatr = [
 [0, 0, 8], #8th column index, 04
@@ -191,4 +191,4 @@ def rowIndex(s):
 		return 52
 	print('ENTERED INVALID STATE... try again')
 
-print(json.dumps({"risk" : getPovRisk(argum['state'], argum['age'])}, sort_keys = True))
+print(json.dumps({"risk" : getPovRisk(argum[0], argum[1])}, sort_keys = True))
