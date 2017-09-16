@@ -57,16 +57,29 @@ function advise(id, msg) {
 
 // Returns your progress to your financial goal
 function goal(id, msg, db, sendTextMessage) {
-  db.all(
-    'SELECT * FROM goals WHERE id=' + id.toString(),
-    (rows) => {
-      for (var i in rows) {
-        row[i] = 'Get ' + row[i].item + ' for ' + row[i].cost;
-        console.log(row[i]);
-      }
-      sendTextMessage(id, returnAll('Your goals: ', '', rows));
-    }
-  );
+  // db.all(
+  //   'SELECT * FROM goals WHERE id=' + id.toString(),
+  //   (rows) => {
+  //     for (var i in rows) {
+  //       row[i] = 'Get ' + row[i].item + ' for ' + row[i].cost;
+  //       console.log(row[i]);
+  //     }
+  //     sendTextMessage(id, returnAll('Your goals: ', '', rows));
+  //   }
+  // );
+  var advice = Array('Save early and spend less! It will pay off in the long run.',
+                    'It\'s never too early to start investing!' ,
+                    'Hold off on purchases that you don\'t need.' ,
+                    'Cooking food is significantly cheaper than eating out!' ,
+                    'Keep a close eye on your expenses and spending habits.',
+                    'Everything in moderation.',
+                    'http://www.investopedia.com/articles/younginvestors/08/eight-tips.asp',
+                    'https://www.themuse.com/advice/50-personal-finance-tips-that-will-change-the-way-you-think-about-money',
+                    'https://www.thebalance.com/top-ten-financial-tips-1289309',
+                    'https://www.forbes.com/sites/jamiehopkins/2016/12/15/expert-financial-planning-tips-for-2017/#3d72083d4eac',
+                    'https://www.mint.com/personal-finance-4/personal-finance-tips-from-billionaires',
+                  )
+  return advice[Math.floor(Math.random()*advice.length)];
 }
 
 // Manually log a user's transaction
