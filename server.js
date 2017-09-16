@@ -67,7 +67,7 @@ function callback(id, json) {
   }
 }
 
-addIO(sslServer);
+addIO(server);
 addMessengerHooks(app, callback);
 
 app.all('*', function(req, res, next) {
