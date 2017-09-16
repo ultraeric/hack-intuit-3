@@ -30,10 +30,12 @@ def processImage(url):
     total = [string for string in receipt if re.match(r, string)]
 
     # Uncomment for debugging purposes
+    '''
     for line in receipt:
         print(line)
     for match in matches:
         print(match)
+    '''
 
     prices = []
     for tote in total:
