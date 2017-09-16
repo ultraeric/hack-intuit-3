@@ -10,14 +10,36 @@ class NewUser extends React.Component {
   constructor() {
     super();
     this.bindAllMethods();
+    this.state = {
+      newUserData: {
+
+      }
+    };
   }
 
   render() {
     return (
-      <div>
+      <div className={'new-user'}>
         <Row>
-          <Col xs={12} s={6}>
-            <Input label={'Information'}></Input>
+          <Col xs={12} sm={6}>
+            <Input label={'Country'}>
+              {this.state.newUserData.country}
+            </Input>
+          </Col>
+          <Col xs={12} sm={6}>
+            <Input label={'Family Origin Country'}>
+              {this.state.newUserData.origin}
+            </Input>
+          </Col>
+          <Col xs={12} sm={6}>
+            <Input label={'Race'}>
+              {this.state.newUserData.race}
+            </Input>
+          </Col>
+          <Col xs={12} sm={6}>
+            <Input label={'Age'}>
+              {this.state.newUserData.age}
+            </Input>
           </Col>
         </Row>
       </div>
