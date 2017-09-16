@@ -11,6 +11,7 @@ import http from 'http';
 import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {StaticRouter} from 'react-router';
+const { spawn } = require('child_process');
 
 import {addMessengerHooks, sendTextMessage} from './messenger-bot/bot.js';
 import addIO from './rest/rest';

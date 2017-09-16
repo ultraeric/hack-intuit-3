@@ -13,6 +13,7 @@ import {StaticRouter} from 'react-router';
 
 import {addMessengerHooks, sendTextMessage} from './messenger-bot/bot.js'
 import addIO from './rest/rest';
+const { spawn } = require('child_process');
 
 var port = 9080;
 var legacyPort = 8080;
