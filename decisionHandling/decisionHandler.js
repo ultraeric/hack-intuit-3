@@ -61,9 +61,9 @@ function goal(id, msg, db, sendTextMessage) {
     'SELECT * FROM goals WHERE id=' + id.toString(),
     (rows) => {
       for (var i in rows) {
-        row[i] = ''
+        row[i] = 'Get ' + row[i].item + ' for ' + row[i].cost;
       }
-      sendTextMessage(id, returnAll('Your goals: ', ''));
+      sendTextMessage(id, returnAll('Your goals: ', '', rows));
     }
   );
 }
