@@ -65,7 +65,10 @@ function callback(id, json) {
   }
   if (json.type === 'text') {
     let msg = json.payload.text;
-    sendTextMessage(id, decisionHandler(id, msg, db, sendTextMessage));
+    let result = decisionHandler(id, msg, db, sendTextMessage);
+    if (result) {
+      sendTextMessage(id, result);
+    }
   } else {
     sendTextMessage(id, 'Processing your receipt now.');
     const python = spawn('python3', ['./receipt_processing/scan.py', json.payload.url]);
