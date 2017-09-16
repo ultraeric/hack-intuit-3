@@ -1,6 +1,14 @@
 import processing from './processing';
+
+function returnAll(initMsg, repeatMsg, rows) {
+  let returnStr = '' + initMsg;
+  for (var i in rows) {
+    returnStr += rows[i];
+  }
+  return returnStr;
+}
+
 function decisionHandler(id, msg, db, sendTextMessage) {
-  msg = msg.toLowerCase();
   let result = processing(id, msg, db, sendTextMessage);
   if (result) {
     return result;
@@ -11,7 +19,7 @@ function decisionHandler(id, msg, db, sendTextMessage) {
     } else if (msg.includes('advice')) {
       return advise(id, msg);
     } else if (msg.includes('goal')) {
-      return goal(id, msg, db);
+      return goal(id, msg, db, sendTextMessage);
     } else if (msg.includes('log')) {
       return log(id, msg, db);
     } else if (msg.includes('average')) {
@@ -48,8 +56,16 @@ function advise(id, msg) {
 }
 
 // Returns your progress to your financial goal
-function goal(id, msg, db) {
-  return 'Placeholder goal!';
+function goal(id, msg, db, sendTextMessage) {
+  db.all(
+    'SELECT * FROM goals WHERE id=' + id.toString(),
+    (rows) => {
+      for (var i in rows) {
+        row[i] = ''
+      }
+      sendTextMessage(id, returnAll('Your goals: ', ''));
+    }
+  );
 }
 
 // Manually log a user's transaction

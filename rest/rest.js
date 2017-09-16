@@ -31,9 +31,11 @@ function addIO(server) {
       // const python = spawn('python3', ['../riskFactors/riskFactors.py',
       //   parseDataToString(data.state),
       //   parseDataToString(data.age)]);
-      // python.stdout.on('data', (data) => {
-      //   console.log(data);
-      //   var risk = JSON.parse(data).risk;
+
+      try {
+      python.stdout.on('data', (data) => {
+        console.log(data);
+        var risk = JSON.parse(data).risk;
         db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
                       parseDataToString(data.name) + '", "' +
                       parseDataToString(data.country) + '", "' +
@@ -45,15 +47,18 @@ function addIO(server) {
                       parseDataToString(data.gender) + '", "' +
                       parseDataToString(data.income) + '", "' +
                       parseDataToString(data.state)
-                      // + '", "' +
-                      // parseDataToString(risk)
+                      + '", "' +
+                      parseDataToString(risk)
                       + '")'
                     );
-        // python.stderr.on('data', (data) => {
-        //   console.log(data);
-        // })
+        python.stderr.on('data', (data) => {
+          console.log(data);
+        })
         socket.emit('redirectHome', {data: true});
-      // });
+      });
+    } catch (exception) {
+      console.log(exception);
+    }
     });
     socket.on('getUser',
     function (data) {
