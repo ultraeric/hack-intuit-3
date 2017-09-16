@@ -24,7 +24,7 @@ const server = express();
 const sslServer = https.createServer(sslOpts, app);
 
 var sslPort = 9443;
-var port = 9081;
+var port = 9080;
 var legacyPort = 8080;
 
 global.window = {

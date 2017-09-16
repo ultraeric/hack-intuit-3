@@ -14,7 +14,7 @@ class LoginButton extends React.Component {
   constructor() {
     super();
     this.bindAllMethods();
-    window.socket = window.socket || io('https://localhost:9443');
+    window.socket = window.socket || io('http://localhost:9080');
   }
 
   tryLogin() {
