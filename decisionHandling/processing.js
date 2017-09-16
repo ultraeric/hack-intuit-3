@@ -24,10 +24,10 @@ function processing(id, msg, db, sendTextMessage) {
               }
             });
           } else {
-            db.all('SELECT * FROM transactions WHERE date > 24 AND date <= 30',
+            db.all('SELECT * FROM transactions WHERE id='  + id.toString(),
             (rows) => {
               if (rows) {
-                returnAll('Your past week\'s transactions: ', ' Used $', rows);
+                return returnAll('Your past week\'s transactions: ', ' Used $', rows);
               } else {
                 return 'No transactions';
               }
