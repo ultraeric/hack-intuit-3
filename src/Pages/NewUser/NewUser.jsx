@@ -81,10 +81,16 @@ class NewUser extends React.Component {
               {this.state.newUserData.gender}
             </Input>
           </Col>
-          <Col xs={12}>
+          <Col xs={6}>
             <Input label={'Income ($/month)'}
               onChange={(event) => this.onChange('income', event)}>
               {this.state.newUserData.income}
+            </Input>
+          </Col>
+          <Col xs={6}>
+            <Input label={'State (In US)'}
+              onChange={(event) => this.onChange('state', event)}>
+              {this.state.newUserData.state}
             </Input>
           </Col>
           <Col xs={12}>
