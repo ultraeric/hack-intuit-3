@@ -6,22 +6,27 @@ function decisionHandler(id, msg, db, sendTextMessage) {
   } else {
     /* JT your stuff here! */
     if (msg.includes('help')) {
-      return help()
+      return help();
     } else if (msg.includes('advice')) {
-      return advise(id, msg)
+      return advise(id, msg);
     } else if (msg.includes('goal')) {
-      return goal(id, msg, db)
+      return goal(id, msg, db);
     } else if (msg.includes('log')) {
-      return goal(id, msg, db)
+      return log(id, msg, db);
     } else if (msg.includes('average')) {
-      return log(id, msg, db)
+      return log(id, msg, db);
     }
   }
 }
 
 // Return list of possible queries/methods
 function help(id, msg) {
-    return ''
+    return `Possible commands:
+            Ask for help! (help)
+            Ask for financial advice! (advice)
+            Check your financial goal! (goal)
+            Log an expense! (log <num>)
+            Check your average spending! (average)`
 }
 
 // Returns financial advice!
