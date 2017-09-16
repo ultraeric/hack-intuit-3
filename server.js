@@ -6,6 +6,7 @@ import path from 'path';
 import zlib from 'zlib';
 
 import https from 'https';
+import http from 'http';
 
 import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -20,7 +21,8 @@ var sslOpts = { key: privateKey, cert: certificate, requestCert: true, rejectUna
                 ca: [ fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/cert.pem') ] };
 
 const app = express();
-const server = express();
+const regApp = express();
+const server = http.createServer(regApp);
 const sslServer = https.createServer(sslOpts, app);
 
 var sslPort = 9443;
