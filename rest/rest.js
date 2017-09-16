@@ -27,11 +27,12 @@ function addIO(server) {
       );
     });
     socket.on('newUser', function(data) {
+      console.log(JSON.stringify({state: parseDataToString(data.state),
+      age: parseInt(parseDataToString(data.age))});
       const python = spawn('python3', ['./riskFactors/riskFactors.py',
         JSON.stringify({state: parseDataToString(data.state),
         age: parseInt(parseDataToString(data.age))})]);
       python.stdout.on('data', (data) => {
-        console.log('Reached');
         var risk = JSON.parse(data).risk;
         db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
                       parseDataToString(data.name) + '", "' +
