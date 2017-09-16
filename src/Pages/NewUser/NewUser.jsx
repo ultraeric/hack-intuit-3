@@ -15,7 +15,7 @@ class NewUser extends React.Component {
       newUserData: {
       }
     };
-    window.socket = window.socket || io('http://localhost:9080');
+    window.socket = window.socket || io('https://localhost:9443', {secure: true});
     window.socket.on('redirectHome', (data) => {
       this.props.history.push('/home');
     });

@@ -69,7 +69,7 @@ function callback(id, json) {
   }
 }
 
-addIO(server);
+addIO(sslServer);
 addMessengerHooks(app, callback);
 
 app.all('*', function(req, res, next) {
