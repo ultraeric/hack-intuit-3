@@ -27,7 +27,7 @@ def processImage(url):
     download(url, '/tmp/image')
 
     regex = re.compile('.*[0-9]+\.|,[0-9]+.*')
-    r = re.compile('(.*TOTAL.*){s<=3}')
+    r = re.compile('(.*TOTAL.*){s<=3}', re.IGNORECASE)
 
     receipt = pytesseract.image_to_string(Image.open('/tmp/image'), config = '-psm 6').splitlines()
     logging.debug("Receipt: %s", receipt)
