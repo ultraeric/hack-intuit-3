@@ -1,1 +1,6 @@
-
+.login-page {
+  .button.ripple-container.centered {
+    left: 50%;
+    transform: translateX(-50%) scale(2);
+  }
+}

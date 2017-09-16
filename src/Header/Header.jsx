@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router';
 import {Guac} from 'guac-hoc/lib/Guac';
-import FacebookProvider, { Login } from 'react-facebook';
+import { Login } from 'react-facebook';
 
 import {AppBar} from 'yui-md/lib/AppBar';
 import {Tab} from 'yui-md/lib/Tab';
@@ -12,7 +12,7 @@ import {Menu} from 'yui-md/lib/Menu';
 import {MenuItem} from 'yui-md/lib/MenuItem';
 import logo from 'static/images/logos/logo.svg';
 
-import {Button} from 'yui-md/lib/Button';
+import {LoginButton} from '../Assets/LoginButton';
 
 class Header extends React.Component {
   constructor() {
@@ -36,20 +36,6 @@ class Header extends React.Component {
     console.log(data);
   }
 
-  fbProviderButton() {
-    let fbProvider = (
-        <Login
-          scope="email"
-          onResponse={this.handleResponse}
-          onError={this.handleError}>
-          <Button>
-            Login via Facebook
-          </Button>
-        </Login>
-    );
-    return fbProvider;
-  }
-
   render() {
     return (
       <AppBar height={82}
@@ -63,7 +49,7 @@ class Header extends React.Component {
                 src={logo}/>
         </a>
         <h4 style={{display: 'inline-block'}}>&nbsp;&nbsp;FinTel</h4>
-        {this.fbProviderButton()}
+        <LoginButton/>
       </AppBar>
     );
   }

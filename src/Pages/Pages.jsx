@@ -9,6 +9,8 @@ import {Button} from 'yui-md/lib/Button';
 
 import FacebookProvider, { Login } from 'react-facebook';
 
+import {LoginPage} from './LoginPage';
+import {NewUser} from './NewUser';
 
 class Pages extends React.Component {
   constructor() {
@@ -16,14 +18,14 @@ class Pages extends React.Component {
     this.bindAllMethods();
   }
 
-
-//        <Switch>
-//        <Route path='/' component={}/>
-//        </Switch>
   render() {
     return (
       <div className={'page'}>
         <Route path='*' render={() => {window.scrollTo(0, 0); return null;}}/>
+        <Switch>
+          <Route path='/newuser' component={NewUser}/>
+          <Route path='/' component={LoginPage}/>
+        </Switch>
       </div>
     );
   }
