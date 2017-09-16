@@ -21,3 +21,4 @@ TOTAL 14.23
 - Extract type of expenses, e.g furniture, gas, grocery from types of items bought
 - Extract method of transaction, e.g cash, card (credit/debit)
 - Notification to scan receipts/log data when near cashiers
+- Preprocessing step to normalize and transform receipts before processing step
