@@ -53,7 +53,12 @@ function sendBase(req, res, next) {
   });
 }
 
-addMessengerHooks(app);
+// Gets called whenever a message / image is received.
+function callback(id, json) {
+  console.log(json);
+}
+
+addMessengerHooks(app, callback);
 
 app.all('*', function(req, res, next) {
   if (req.path.startsWith('/newuser') || req.path.startsWith('/computers')) {

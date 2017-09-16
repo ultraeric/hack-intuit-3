@@ -19,12 +19,13 @@ console.log('PAGE_ACCESS_TOKEN="%s"', PAGE_ACCESS_TOKEN);
 // let app = express();
 // 
 
-function addMessengerHooks(app) {
-  // Webhook validation
+function addMessengerHooks(app, callback) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
     extended: true
   }));
+
+  // Webhook validation
   app.get('/webhook', function(req, res) {
     if (req.query['hub.mode'] === 'subscribe' &&
         req.query['hub.verify_token'] === VERIFY_TOKEN) {
@@ -39,7 +40,6 @@ function addMessengerHooks(app) {
   
   // Message processing
   app.post('/webhook', function (req, res) {
-    console.log(req.body);
     var data = req.body;
   
     // Make sure this is a page subscription
@@ -53,11 +53,11 @@ function addMessengerHooks(app) {
         // Iterate over each messaging event
         entry.messaging.forEach(function(event) {
           if (event.message) {
-            receivedMessage(event);
+            receivedMessage(event, callback);
           } else if (event.postback) {
-            receivedPostback(event);   
+            receivedPostback(event, callback);
           } else {
-            console.log("Webhook received unknown event: ", event);
+            console.log("Webhook received not message or postback");
           }
         });
       });
@@ -74,7 +74,7 @@ function addMessengerHooks(app) {
 }
 
 // Incoming events handling
-function receivedMessage(event) {
+function receivedMessage(event, callback) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
@@ -82,7 +82,6 @@ function receivedMessage(event) {
 
   console.log("Received message for user %d and page %d at %d with message:", 
     senderID, recipientID, timeOfMessage);
-  console.log(JSON.stringify(message));
 
   var messageId = message.mid;
 
@@ -90,23 +89,25 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
+    console.log("Received message: \"%s\"", messageText);
     // If we receive a text message, check to see if it matches a keyword
     // and send back the template example. Otherwise, just echo the text we received.
-    switch (messageText) {
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
-
-      default:
-        sendTextMessage(senderID, messageText);
-    }
+    callback(senderID, {"type": "text", "payload": {"text": messageText}});
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received: " + JSON.stringify(messageAttachments));
-    console.log(messageAttachments);
+    // sendTextMessage(senderID, "Message with attachment received: " + JSON.stringify(messageAttachments));
+    console.log("Received attachments: %s", messageAttachments);
+    for (var i = 0; i < messageAttachments.length; i++) {
+      var attached = messageAttachments[i];
+      if (attached.type === "image") {
+        callback(senderID, attached);
+      } else {
+        console.log(attached.type);
+      }
+    }
   }
 }
 
-function receivedPostback(event) {
+function receivedPostback(event, callback) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
@@ -136,6 +137,36 @@ function sendTextMessage(recipientId, messageText) {
     }
   };
 
+  callSendAPI(messageData);
+}
+
+function sendMinionsSticker(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "<3"
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
+function sendImage(recipientId, url) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "image",
+        payload: {
+          "url": url
+        }
+      }
+    }
+  };
   callSendAPI(messageData);
 }
 
@@ -187,6 +218,7 @@ function sendGenericMessage(recipientId) {
 }
 
 function callSendAPI(messageData) {
+  console.log("Sent messageData: %s", JSON.stringify(messageData));
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -202,8 +234,8 @@ function callSendAPI(messageData) {
         messageId, recipientId);
     } else {
       console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
+      // console.error(response);
+      // console.error(error);
     }
   });  
 }
