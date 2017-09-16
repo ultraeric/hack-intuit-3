@@ -27,12 +27,12 @@ function addIO(server) {
       );
     });
     socket.on('newUser', function(data) {
-      const python = spawn('python3', ['../riskFactors/riskFactors.py',
-        parseDataToString(data.state),
-        parseDataToString(data.age)]);
-      python.stdout.on('data', (data) => {
-        console.log(data);
-        var risk = JSON.parse(data).risk;
+      // const python = spawn('python3', ['../riskFactors/riskFactors.py',
+      //   parseDataToString(data.state),
+      //   parseDataToString(data.age)]);
+      // python.stdout.on('data', (data) => {
+      //   console.log(data);
+      //   var risk = JSON.parse(data).risk;
         db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
                       parseDataToString(data.name) + '", "' +
                       parseDataToString(data.country) + '", "' +
@@ -43,13 +43,16 @@ function addIO(server) {
                       parseDataToString(data.housing) + '", "' +
                       parseDataToString(data.gender) + '", "' +
                       parseDataToString(data.income) + '", "' +
-                      parseDataToString(data.state) + '", "' +
-                      parseDataToString(risk) + '")');
-        python.stderr.on('data', (data) => {
-          console.log(data);
-        })
+                      parseDataToString(data.state)
+                      // + '", "' +
+                      // parseDataToString(risk)
+                      + '")'
+                    );
+        // python.stderr.on('data', (data) => {
+        //   console.log(data);
+        // })
         socket.emit('redirectHome', {data: true});
-      });
+      // });
     });
     socket.on('getUser',
     function (data) {
