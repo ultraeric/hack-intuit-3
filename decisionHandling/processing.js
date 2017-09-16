@@ -10,6 +10,7 @@ function returnAll(initMsg, repeatMsg, rows) {
 }
 
 function processing(id, msg, db, sendTextMessage) {
+  console.log('hit');
   if (msg.includes('spending')
         && msg.includes('over')
         && (msg.includes('past') || msg.includes('last'))) {
