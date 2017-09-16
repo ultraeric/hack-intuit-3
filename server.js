@@ -14,7 +14,8 @@ import {StaticRouter} from 'react-router';
 const { spawn } = require('child_process');
 
 import {addMessengerHooks, sendTextMessage} from './messenger-bot/bot.js';
-import addIO from './rest/rest';
+import {addIO, db} from './rest/rest';
+import decisionHandler from './decisionHandling/decisionHandler';
 
 var certificate = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/fullchain.pem');
 var privateKey = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/privkey.pem');
@@ -63,12 +64,18 @@ function callback(id, json) {
     return;
   }
   if (json.type === 'text') {
-
+    let msg = json.payload.text;
+    sendTextMessage(id, decisionHandler(id, msg, db));
   } else {
     sendTextMessage(id, 'Processing your receipt now.');
     const python = spawn('python3', ['./receipt_processing/scan.py', json.payload.url]);
     python.stdout.on('data', (data) => {
-      sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
+      var total = JSON.parse(data).total;
+      if (total) {
+        sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
+      } else {
+        sendTextMessage(id, 'Your receipt could not be parsed.');
+      }
     });
     python.stderr.on('data', (data) => {
       console.log(data.toString());

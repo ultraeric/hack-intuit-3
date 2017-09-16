@@ -22,7 +22,7 @@ def processImage(url):
     download(url, '/tmp/image')
 
     regex = re.compile('.*[0-9]+\.|,[0-9]+.*')
-    r = re.compile('(.*TOTAL.*){s<=2}')
+    r = re.compile('(.*TOTAL.*){s<=3}')
 
     receipt = pytesseract.image_to_string(Image.open('/tmp/image'), config = '-psm 6').splitlines()
     matches = [string for string in receipt if re.match(regex, string)]
@@ -38,7 +38,6 @@ def processImage(url):
 
     prices = []
     for tote in total:
-        print(tote)
         for word in tote.split():
             if re.match(regex, word):
                 try:
