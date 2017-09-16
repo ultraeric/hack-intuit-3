@@ -10,11 +10,11 @@ function returnAll(initMsg, repeatMsg, rows) {
 }
 
 function processing(id, msg, db, sendTextMessage) {
-  console.log('hit');
   if (msg.includes('spending')
         && msg.includes('over')
         && (msg.includes('past') || msg.includes('last'))) {
           if (msg.includes('week')) {
+            console.log('hit');
             db.all('SELECT amount FROM transactions WHERE date > 24 AND date <= 30 AND id=' + id.toString(),
             (rows) => {
               if (rows) {
