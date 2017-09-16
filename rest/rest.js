@@ -4,7 +4,8 @@ var db = new sqlite3.Database(':memory:');
 const { spawn } = require('child_process');
 
 db.run("CREATE TABLE users (id TEXT, name TEXT, country TEXT, race TEXT, age TEXT,\
-        citizenship TEXT, origin TEXT, housing TEXT, gender TEXT, income TEXT, state TEXT)");
+        citizenship TEXT, origin TEXT, housing TEXT, gender TEXT, income TEXT, state TEXT,
+        riskFactor TEXT)");
 db.run("CREATE TABLE transactions (id TEXT, date TEXT, amount TEXT)");
 db.run("CREATE TABLE goals (id TEXT, item TEXT, cost TEXT)");
 
@@ -26,18 +27,25 @@ function addIO(server) {
       );
     });
     socket.on('newUser', function(data) {
-      db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
-                    parseDataToString(data.name) + '", "' +
-                    parseDataToString(data.country) + '", "' +
-                    parseDataToString(data.race) + '", "' +
-                    parseDataToString(data.age) + '", "' +
-                    parseDataToString(data.citizenship) + '", "' +
-                    parseDataToString(data.origin) + '", "' +
-                    parseDataToString(data.housing) + '", "' +
-                    parseDataToString(data.gender) + '", "' +
-                    parseDataToString(data.income) + '", "' +
-                    parseDataToString(data.state) + '")');
-      socket.emit('redirectHome', {data: true});
+      const python = spawn('python3', ['./riskFactors/riskFactors.py',
+        JSON.stringify({state: parseDataToString(data.state),
+          age: parseInt(parseDataToString(data.age))})]);
+      python.on('data', (data) => {
+        var risk = JSON.parse(data).risk;
+        db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
+                      parseDataToString(data.name) + '", "' +
+                      parseDataToString(data.country) + '", "' +
+                      parseDataToString(data.race) + '", "' +
+                      parseDataToString(data.age) + '", "' +
+                      parseDataToString(data.citizenship) + '", "' +
+                      parseDataToString(data.origin) + '", "' +
+                      parseDataToString(data.housing) + '", "' +
+                      parseDataToString(data.gender) + '", "' +
+                      parseDataToString(data.income) + '", "' +
+                      parseDataToString(data.state) + '", "' +
+                      parseDataToString(risk) + '")');
+        socket.emit('redirectHome', {data: true});
+      });
     });
     socket.on('getUser',
     function (data) {
