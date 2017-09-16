@@ -30,8 +30,8 @@ function addIO(server) {
       const python = spawn('python3', ['./riskFactors/riskFactors.py',
         JSON.stringify({state: parseDataToString(data.state),
         age: parseInt(parseDataToString(data.age))})]);
-      console.log('Reached');
       python.stdout.on('data', (data) => {
+        console.log('Reached');
         var risk = JSON.parse(data).risk;
         db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
                       parseDataToString(data.name) + '", "' +
@@ -45,7 +45,6 @@ function addIO(server) {
                       parseDataToString(data.income) + '", "' +
                       parseDataToString(data.state) + '", "' +
                       parseDataToString(risk) + '")');
-        console.log('Reached');
         socket.emit('redirectHome', {data: true});
       });
     });
