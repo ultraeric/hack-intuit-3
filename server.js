@@ -11,16 +11,18 @@ import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {StaticRouter} from 'react-router';
 
-var certificate = fs.readFileSync('<INSERT LOCATION OF CERTIFICATE>');
-var privateKey = fs.readFileSync('<INSERT LOCATION OF PRIVATE KEY>');
+import addMessengerHooks from './messenger-bot/bot.js'
+
+var certificate = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/fullchain.pem');
+var privateKey = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/privkey.pem');
 var credentials = { key: privateKey, cert: certificate, requestCert: true };
 
 const app = express();
 const server = express();
 const sslServer = https.createServer(credentials, app);
 
-var sslPort = 8443;
-var port = 8081;
+var sslPort = 9443;
+var port = 9081;
 var legacyPort = 8080;
 
 global.window = {
@@ -31,20 +33,20 @@ global.document = {
   addEventListener: () => {}
 };
 
-var AppComponent = require('./src/App').default;
+// var AppComponent = require('./src/App').default;
 
 /* GZIP everything */
 function sendBase(req, res, next) {
   fs.readFile(__dirname + '/../public/index.html', 'utf8', function (error, docData) {
     if (error) throw error;
     res.writeHead(200, {'Content-Type': 'text/html', 'Content-Encoding': 'gzip'});
-    const AppElement = ReactDOMServer.renderToString(
-                        <StaticRouter location={req.url} context={{}}>
-                          <AppComponent/>
-                        </StaticRouter>
-                      );
-    const document = docData.replace(/<div id="app"><\/div>/,`<div id="app">${AppElement}</div>`);
-    zlib.gzip(document, function (_, result) {
+ //   const AppElement = ReactDOMServer.renderToString(
+ //                       <StaticRouter location={req.url} context={{}}>
+ //                         <AppComponent/>
+ //                       </StaticRouter>
+ //                     );
+ //   const document = docData.replace(/<div id="app"><\/div>/,`<div id="app">${AppElement}</div>`);
+    zlib.gzip(docData, function (_, result) {
       res.end(result);
     });
   });
@@ -59,6 +61,8 @@ app.all('*', function(req, res, next){
     return next();
   }
 });
+
+addMessengerHooks(app);
 
 app.use(favicon(path.join(__dirname, '/../public/static/images/logos/favicon.ico')));
 
