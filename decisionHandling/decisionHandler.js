@@ -13,7 +13,7 @@ function decisionHandler(id, msg, db, sendTextMessage) {
   if (result) {
     return result;
   } else {
-    /* JT your stuff here! */
+    msg = msg.toLowerCase();
     if (msg.includes('help')) {
       return help();
     } else if (msg.includes('advice')) {
