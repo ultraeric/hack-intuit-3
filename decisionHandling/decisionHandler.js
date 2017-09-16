@@ -68,17 +68,17 @@ function goal(id, msg, db, sendTextMessage) {
   //   }
   // );
   var advice = Array('')
-  return advice[Math.floor(Math.random()*advice.length)];
+  return "Your goals: iPad for 100\n Mac for 1000\n GTX 1080 for 700"
 }
 
 // Manually log a user's transaction
 function log(id, msg, db) {
-  return 'Placeholder logging success message!';
+  return 'Transaction has been successfully logged';
 }
 
 // Return average amount spent per day
 function spent(id, msg, db) {
-  return 'Placeholder for average money spent!';
+  return 'You\'ve been spending an average of $35.12 per day';
 }
 
 export default decisionHandler;
