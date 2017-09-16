@@ -46,7 +46,7 @@ function addIO(server) {
                       parseDataToString(data.income) + '", "' +
                       parseDataToString(data.state) + '", "' +
                       parseDataToString(risk) + '")');
-        python.stderr.on('data' (data) => {
+        python.stderr.on('data', (data) => {
           console.log(data);
         })
         socket.emit('redirectHome', {data: true});
