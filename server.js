@@ -70,6 +70,9 @@ function callback(id, json) {
     python.stdout.on('data', (data) => {
       sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
     });
+    python.stderr.on('data', (data) => {
+      console.log(data);
+    })
   }
 }
 
