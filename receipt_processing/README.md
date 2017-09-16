@@ -1,8 +1,8 @@
 # Receipt Processing
 
-### This is a work in progress
+### This is a work in progress, with many improvements ahead of it!
 
-Input an URL as `sys.argv[1]` and print jsonified total on stdout. None if undetectable.
+Input URL on script invocation `sys.argv[1]` and print extracted total expense as a json on stdout. Empty json if total is unextractable.
 
 Usage: `python3 scan.py <url>`
 
@@ -13,10 +13,11 @@ TOTAL 14.23
 ➜  receipt_processing git:(reciepts) ✗
 ```
 
-### TODO:
-- Train Tesserac to better recognize receipt font
-- Itemize reciept and return full dictionary
-- Extract date of purchase
-- Extract place of purchase
-- Extract type of expenses
-- Extract method of transaction
+### TODO - Future Impl:
+- Train Tesserac to better recognize receipt font: seems to be trained on more traditional fonts (Arial, Helvetica, TNR)
+- Itemize reciept and return full dictionary mapping items to prices
+- Extract date of purchase from receipt; alternatively timestamp on upload
+- Extract place of purchase, either w/ receipt or geolocation ping
+- Extract type of expenses, e.g furniture, gas, grocery from types of items bought
+- Extract method of transaction, e.g cash, card (credit/debit)
+- Notification to scan receipts/log data when near cashiers
