@@ -191,4 +191,4 @@ def rowIndex(s):
 		return 52
 	print('ENTERED INVALID STATE... try again')
 
-print(json.dumps({"risk" : getPovRisk(argum[0], argum[1])}, sort_keys = True))
+print(json.dumps({"risk" : getPovRisk(argum[0], argum[1])}))
