@@ -68,7 +68,12 @@ function callback(id, json) {
     sendTextMessage(id, 'Processing your receipt now.');
     const python = spawn('python3', ['./receipt_processing/scan.py', json.payload.url]);
     python.stdout.on('data', (data) => {
-      sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
+      var total = JSON.parse(data).total;
+      if (total) {
+        sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
+      } else {
+        sendTextMessage(id, 'Your receipt could not be parsed.');
+      } 
     });
     python.stderr.on('data', (data) => {
       console.log(data.toString());
