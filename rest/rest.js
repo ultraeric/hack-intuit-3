@@ -28,9 +28,9 @@ function addIO(server) {
       );
     });
     socket.on('newUser', function(data) {
-      // const python = spawn('python3', ['../riskFactors/riskFactors.py',
-      //   parseDataToString(data.state),
-      //   parseDataToString(data.age)]);
+      const python = spawn('python3', ['../riskFactors/riskFactors.py',
+        parseDataToString(data.state),
+        parseDataToString(data.age)]);
 
       try {
       python.stdout.on('data', (data) => {
