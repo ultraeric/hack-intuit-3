@@ -42,9 +42,6 @@ function addIO(server) {
                         parseDataToString(data.state)
                         + '")'
                       );
-            python.stderr.on('data', (data) => {
-              console.log('stderr data', data);
-            })
             socket.emit('redirectHome', {data: true});
           });
     //   const python = spawn('python3', ['../riskFactors/riskFactors.py',
