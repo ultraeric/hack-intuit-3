@@ -1,0 +1,10 @@
+import csv
+import itertools
+import numpy as np
+#read csv file
+results = np.genfromtxt('USA_All_States.csv', delimiter=",")
+
+# with open("USA_All_States.csv") as csvfile:
+#     for row in itertools.islice(csvfile, 1, None): # each row is a list
+#         results.append(row.strip().split(';'))
+# print(results[0][3])
