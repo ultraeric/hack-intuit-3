@@ -4,7 +4,7 @@ import numpy as np
 import json
 import sys
 
-argum = [sys.argv[1], sys.argv[2]]
+argum = [sys.argv[1], int(sys.argv[2])]
 #read csv file
 results = np.genfromtxt('USA_All_States.csv', delimiter=",")
 #[[ageCategory, above/below, columnIndex], ....]
