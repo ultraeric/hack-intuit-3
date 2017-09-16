@@ -1,22 +1,36 @@
+import json
+import os
 import pytesseract
 import regex as re
+import socket
 import sys
+from urllib import request
+from requests import get
 
 try:
     import Image
 except ImportError:
     from PIL import Image
 
-pic = sys.argv[1]
+# Returns dictionary mapping total to price. None if unable generate dict.
+def processImage(url):
 
-# Returns dictionary mapping items and total to price.
-def processImage(filename):
+    def download(url, file_name):
+        with open(file_name, "wb") as file:
+            response = get(url)
+            file.write(response.content)
+
+    download(url, 'image')
+
     regex = re.compile('.*[0-9]+\.|,[0-9]+.*')
     r = re.compile('(.*TOTAL.*){s<=2}')
 
-    receipt = pytesseract.image_to_string(Image.open(pic), config = '-psm 6').splitlines()
+    receipt = pytesseract.image_to_string(Image.open('image'), config = '-psm 6').splitlines()
     matches = [string for string in receipt if re.match(regex, string)]
     total = [string for string in receipt if re.match(r, string)]
+
+    for line in receipt:
+        print(line)
 
     prices = []
     for match in matches:
@@ -31,7 +45,16 @@ def processImage(filename):
                     continue
 
     #print("Detected total: {}".format(max(prices)))
+    os.remove('image')
+    total = {}
+    try:
+        total['total'] = max(prices)
+    except:
+        return None
+    return json.dumps(total)
 
-    return matches, total
-
-processImage(pic)
+url = sys.argv[1]
+me = socket.socket()
+me.connect(('localhost', 9080))
+me.sendall(processImage(url))
+me.close()
