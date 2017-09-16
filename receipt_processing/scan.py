@@ -22,7 +22,7 @@ def processImage(url):
     download(url, '/tmp/image')
 
     regex = re.compile('.*[0-9]+\.|,[0-9]+.*')
-    r = re.compile('(.*TOTAL.*){s<=2}')
+    r = re.compile('(.*TOTAL.*){s<=3}')
 
     receipt = pytesseract.image_to_string(Image.open('/tmp/image'), config = '-psm 6').splitlines()
     matches = [string for string in receipt if re.match(regex, string)]
@@ -46,7 +46,7 @@ def processImage(url):
                 except:
                     continue
 
-    os.remove('image')
+    os.remove('/tmp/image')
     total = {}
     try:
         #print("Detected total: {}".format(max(prices)))

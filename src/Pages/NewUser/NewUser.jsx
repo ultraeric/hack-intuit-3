@@ -15,7 +15,7 @@ class NewUser extends React.Component {
       newUserData: {
       }
     };
-    window.socket = window.socket || io('http://localhost:8081');
+    window.socket = window.socket || io('https://www.csua.berkeley.edu:9443', {secure: true});
     window.socket.on('redirectHome', (data) => {
       this.props.history.push('/home');
     });
@@ -81,10 +81,16 @@ class NewUser extends React.Component {
               {this.state.newUserData.gender}
             </Input>
           </Col>
-          <Col xs={12}>
+          <Col xs={6}>
             <Input label={'Income ($/month)'}
               onChange={(event) => this.onChange('income', event)}>
               {this.state.newUserData.income}
+            </Input>
+          </Col>
+          <Col xs={6}>
+            <Input label={'State (In US)'}
+              onChange={(event) => this.onChange('state', event)}>
+              {this.state.newUserData.state}
             </Input>
           </Col>
           <Col xs={12}>

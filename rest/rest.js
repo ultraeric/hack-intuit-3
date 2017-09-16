@@ -4,7 +4,7 @@ var db = new sqlite3.Database(':memory:');
 const { spawn } = require('child_process');
 
 db.run("CREATE TABLE users (id TEXT, name TEXT, country TEXT, race TEXT, age TEXT,\
-        citizenship TEXT, origin TEXT, housing TEXT, gender TEXT, income TEXT)");
+        citizenship TEXT, origin TEXT, housing TEXT, gender TEXT, income TEXT, state TEXT)");
 db.run("CREATE TABLE transactions (id TEXT, date TEXT, amount TEXT)");
 db.run("CREATE TABLE goals (id TEXT, item TEXT, cost TEXT)");
 
@@ -35,7 +35,8 @@ function addIO(server) {
                     parseDataToString(data.origin) + '", "' +
                     parseDataToString(data.housing) + '", "' +
                     parseDataToString(data.gender) + '", "' +
-                    parseDataToString(data.income) + '")');
+                    parseDataToString(data.income) + '", "' +
+                    parseDataToString(data.state) + '")');
       socket.emit('redirectHome', {data: true});
     });
     socket.on('getUser',
@@ -75,4 +76,4 @@ function addIO(server) {
 };
 
 export default addIO;
-export {addIO, };
+export {addIO, db};

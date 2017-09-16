@@ -6,13 +6,16 @@ import path from 'path';
 import zlib from 'zlib';
 
 import https from 'https';
+import http from 'http';
 
 import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {StaticRouter} from 'react-router';
+const { spawn } = require('child_process');
 
 import {addMessengerHooks, sendTextMessage} from './messenger-bot/bot.js';
-import addIO from './rest/rest';
+import {addIO, db} from './rest/rest';
+import decisionHandler from './decisionHandling/decisionHandler';
 
 var certificate = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/fullchain.pem');
 var privateKey = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/privkey.pem');
@@ -20,11 +23,12 @@ var sslOpts = { key: privateKey, cert: certificate, requestCert: true, rejectUna
                 ca: [ fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/cert.pem') ] };
 
 const app = express();
-const server = express();
+const regApp = express();
+const server = http.createServer(regApp);
 const sslServer = https.createServer(sslOpts, app);
 
 var sslPort = 9443;
-var port = 9081;
+var port = 9080;
 var legacyPort = 8080;
 
 global.window = {
@@ -56,17 +60,30 @@ function sendBase(req, res, next) {
 
 // Gets called whenever a message / image is received.
 function callback(id, json) {
+  if (id === 1476525979102735) {
+    return;
+  }
   if (json.type === 'text') {
-
+    let msg = json.payload.text;
+    sendTextMessage(id, decisionHandler(id, msg));
   } else {
     sendTextMessage(id, 'Processing your receipt now.');
     const python = spawn('python3', ['./receipt_processing/scan.py', json.payload.url]);
     python.stdout.on('data', (data) => {
-      sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
+      var total = JSON.parse(data).total;
+      if (total) {
+        sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
+      } else {
+        sendTextMessage(id, 'Your receipt could not be parsed.');
+      }
     });
+    python.stderr.on('data', (data) => {
+      console.log(data.toString());
+    })
   }
 }
 
+addIO(sslServer);
 addMessengerHooks(app, callback);
 
 app.all('*', function(req, res, next) {
@@ -110,7 +127,7 @@ sslServer.listen(sslPort,
   () => console.log('Node/express SSL server started on port ' + sslPort)
 );
 
-server.get('*', function(req, res) {
+regApp.get('*', function(req, res) {
   res.redirect('https://' + req.hostname + ':' + sslPort);
 });
 

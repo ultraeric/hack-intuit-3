@@ -10,7 +10,7 @@ class Home extends React.Component {
   constructor() {
     super();
     this.bindAllMethods();
-    window.socket = window.socket || io('http://localhost:8081');
+    window.socket = window.socket || io('https://www.csua.berkeley.edu:9443', {secure: true});
     window.socket.on('redirectHome', (data) => {
       this.props.history.push('/home');
     });
