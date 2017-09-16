@@ -34,9 +34,8 @@ function addIO(server) {
 
       try {
         console.log('hello');
-        console.log('python', python);
         python.stdout.on('data', function (data) {
-        console.log(data);
+        console.log('stdout data', data);
         var risk = JSON.parse(data).risk;
         db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
                       parseDataToString(data.name) + '", "' +
@@ -54,12 +53,12 @@ function addIO(server) {
                       + '")'
                     );
         python.stderr.on('data', (data) => {
-          console.log(data);
+          console.log('stderr data', data);
         })
         socket.emit('redirectHome', {data: true});
       });
     } catch (exception) {
-      console.log(exception);
+      console.log('exception', exception);
     }
     });
     socket.on('getUser',
