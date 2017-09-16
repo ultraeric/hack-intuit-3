@@ -59,19 +59,19 @@ app.all('*', function(req, res, next){
 
 app.use(favicon(path.join(__dirname, '/../public/static/images/logos/favicon.ico')));
 
-app.get('/bundle.js', function (req, res, next) {
-  req.url = req.url + '.gz';
-  res.set('Content-Encoding', 'gzip');
-  res.set('Content-Type', 'application/javascript');
-  next();
-});
-
-app.get('/bundle.css', function (req, res, next) {
-  req.url = req.url + '.gz';
-  res.set('Content-Encoding', 'gzip');
-  res.set('Content-Type', 'text/css');
-  next();
-});
+// app.get('/bundle.js', function (req, res, next) {
+//   req.url = req.url + '.gz';
+//   res.set('Content-Encoding', 'gzip');
+//   res.set('Content-Type', 'application/javascript');
+//   next();
+// });
+//
+// app.get('/bundle.css', function (req, res, next) {
+//   req.url = req.url + '.gz';
+//   res.set('Content-Encoding', 'gzip');
+//   res.set('Content-Type', 'text/css');
+//   next();
+// });
 
 app.get('/', sendBase);
 

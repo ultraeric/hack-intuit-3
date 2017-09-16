@@ -1100,6 +1100,26 @@ html {
   padding: 56px;
   padding-bottom: 40px;
   text-align: center; }
+
+.page {
+  min-height: 50vh;
+  width: 100%;
+  box-sizing: border-box; }
+  .page h3.page-title {
+    margin-top: 10vh; }
+  .page > * {
+    min-height: 50vh; }
+    @media only screen and (min-width: 480px) and (max-width: 980px) {
+      .page > * {
+        padding-left: calc(30% - 144px);
+        padding-right: calc(30% - 144px); } }
+    @media only screen and (min-width: 980px) {
+      .page > * {
+        padding-left: calc(45% - 291px);
+        padding-right: calc(45% - 291px); } }
+
+.app-bar .button.ripple-container {
+  float: right; }
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500);.primary {
   background-color: #3f51b5; }
 

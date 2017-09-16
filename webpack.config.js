@@ -98,16 +98,16 @@ module.exports = [
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new UglifyEsPlugin(),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8
-    }),
+    // new UglifyEsPlugin(),
+    // new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.AggressiveMergingPlugin(),
+    // new CompressionPlugin({
+    //   asset: "[path].gz[query]",
+    //   algorithm: "gzip",
+    //   test: /\.js$|\.css$|\.html$/,
+    //   threshold: 10240,
+    //   minRatio: 0.8
+    // }),
     new CopyWebpackPlugin([
       {from: path.resolve(__dirname, 'static/images/logos/favicon.ico'),
         to: path.resolve(__dirname, 'public/static/images/logos/favicon.ico')}
