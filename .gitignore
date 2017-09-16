@@ -8,3 +8,5 @@ public/bundle.css.gz
 public/bundle.js
 public/bundle.js.gz
 deploy/*
+*.swp
+*.sw*

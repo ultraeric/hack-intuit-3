@@ -15,11 +15,12 @@ import addMessengerHooks from './messenger-bot/bot.js'
 
 var certificate = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/fullchain.pem');
 var privateKey = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/privkey.pem');
-var credentials = { key: privateKey, cert: certificate, requestCert: true };
+var sslOpts = { key: privateKey, cert: certificate, requestCert: true, rejectUnauthorized: false,
+                ca: [ fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/cert.pem') ] };
 
 const app = express();
 const server = express();
-const sslServer = https.createServer(credentials, app);
+const sslServer = https.createServer(sslOpts, app);
 
 var sslPort = 9443;
 var port = 9081;
@@ -37,6 +38,7 @@ global.document = {
 
 /* GZIP everything */
 function sendBase(req, res, next) {
+  console.log('sendBase');
   fs.readFile(__dirname + '/../public/index.html', 'utf8', function (error, docData) {
     if (error) throw error;
     res.writeHead(200, {'Content-Type': 'text/html', 'Content-Encoding': 'gzip'});
@@ -52,7 +54,8 @@ function sendBase(req, res, next) {
   });
 }
 
-app.all('*', function(req, res, next){
+app.all('*', function(req, res, next) {
+  console.log('app.all(\'*\')')
   if (req.path.startsWith('/newuser') || req.path.startsWith('/computers')) {
     res.redirect('https://' + req.hostname + ':' + legacyPort + req.path);
     return;
@@ -62,35 +65,43 @@ app.all('*', function(req, res, next){
   }
 });
 
-addMessengerHooks(app);
+// addMessengerHooks(app);
 
 app.use(favicon(path.join(__dirname, '/../public/static/images/logos/favicon.ico')));
 
-app.get('/bundle.js', function (req, res, next) {
-  req.url = req.url + '.gz';
-  res.set('Content-Encoding', 'gzip');
-  res.set('Content-Type', 'application/javascript');
-  next();
-});
+// app.get('/bundle.js', function (req, res, next) {
+//   req.url = req.url + '.gz';
+//   res.set('Content-Encoding', 'gzip');
+//   res.set('Content-Type', 'application/javascript');
+//   next();
+// });
+// 
+// app.get('/bundle.css', function (req, res, next) {
+//   req.url = req.url + '.gz';
+//   res.set('Content-Encoding', 'gzip');
+//   res.set('Content-Type', 'text/css');
+//   next();
+// });
 
-app.get('/bundle.css', function (req, res, next) {
-  req.url = req.url + '.gz';
-  res.set('Content-Encoding', 'gzip');
-  res.set('Content-Type', 'text/css');
-  next();
+app.get('/', function() {
+  console.log('get \/');
+  sendBase(...arguments);
 });
-
-app.get('/', sendBase);
 
 app.use(express.static('public'));
 
-app.get('*', sendBase);
+app.get('*', function() {
+  console.log('FUCK NODE.JS *');
+  sendBase(...arguments);
+});
 
 sslServer.listen(sslPort,
   () => console.log('Node/express SSL server started on port ' + sslPort)
 );
 
 server.get('*', function(req, res) {
+  console.log('(node js is for poopoostinkies) server *');
   res.redirect('https://' + req.hostname + ':' + sslPort);
 });
+
 server.listen(port);
