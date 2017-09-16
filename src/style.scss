@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+@import '~static/styles/style.scss';
+
+.app-root {
+  font-family: 'Lato', sans-serif;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+}
+
+.content-container {
+  margin-bottom: 50px;
+}
