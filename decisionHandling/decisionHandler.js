@@ -1,6 +1,6 @@
 import processing from './processing';
-function decisionHandler(id, msg, db) {
-  let result = processing(id, msg, db);
+function decisionHandler(id, msg, db, sendTextMessage) {
+  let result = processing(id, msg, db, sendTextMessage);
   if (result) {
     return result;
   } else {
