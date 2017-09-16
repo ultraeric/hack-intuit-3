@@ -1,7 +1,6 @@
 import express from 'express';
 import favicon from 'serve-favicon';
 import {MongoClient, ObjectID} from 'mongodb';
-import sqlite3 from 'sqlite3';
 import fs from 'fs';
 import path from 'path';
 import zlib from 'zlib';
@@ -12,9 +11,10 @@ import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {StaticRouter} from 'react-router';
 
-var db = new sqlite3.Database(':memory:');
+import {addMessengerHooks, sendTextMessage} from './messenger-bot/bot.js'
+import addIO from './rest/rest';
 
-var port = 8081;
+var port = 9080;
 var legacyPort = 8080;
 
 global.window = {
@@ -49,6 +49,20 @@ function sendBase(req, res, next) {
 const app = express();
 const server = http.createServer(app);
 
+function callback(id, json) {
+  if (json.type === 'text') {
+
+  } else {
+    sendTextMessage(id, 'Processing your receipt now.');
+    const python = spawn('python3', ['./receipt_processing/scan.py', json.payload.url]);
+    python.stdout.on('data', (data) => {
+      sendTextMessage(id, 'Test');
+    });
+  }
+}
+
+addMessengerHooks(app, callback);
+
 app.all('*', function(req, res, next){
   if (req.path.startsWith('/newuser') || req.path.startsWith('/computers')) {
     res.redirect('https://' + req.hostname + ':' + legacyPort + req.path);
@@ -82,3 +96,5 @@ app.get('*', sendBase);
 server.listen(port,
   () => console.log('Node/express test server started on port ' + port)
 );
+
+addIO(server);

@@ -15,6 +15,10 @@
   background-color: $accent-color;
 }
 
+p {
+  margin: 4px;
+}
+
 @import './Footer/style.scss';
 @import './Pages/style.scss';
 @import './Header/style.scss';

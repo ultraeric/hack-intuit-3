@@ -11,7 +11,8 @@ import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {StaticRouter} from 'react-router';
 
-import addMessengerHooks from './messenger-bot/bot.js'
+import {addMessengerHooks, sendTextMessage} from './messenger-bot/bot.js';
+import addIO from './rest/rest';
 
 var certificate = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/fullchain.pem');
 var privateKey = fs.readFileSync('/etc/letsencrypt/live/www.csua.berkeley.edu/privkey.pem');
@@ -55,7 +56,15 @@ function sendBase(req, res, next) {
 
 // Gets called whenever a message / image is received.
 function callback(id, json) {
-  console.log(json);
+  if (json.type === 'text') {
+
+  } else {
+    sendTextMessage(id, 'Processing your receipt now.');
+    const python = spawn('python3', ['./receipt_processing/scan.py', json.payload.url]);
+    python.stdout.on('data', (data) => {
+      sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
+    });
+  }
 }
 
 addMessengerHooks(app, callback);
@@ -79,7 +88,7 @@ app.use(favicon(path.join(__dirname, '/../public/static/images/logos/favicon.ico
 //   res.set('Content-Type', 'application/javascript');
 //   next();
 // });
-// 
+//
 // app.get('/bundle.css', function (req, res, next) {
 //   req.url = req.url + '.gz';
 //   res.set('Content-Encoding', 'gzip');

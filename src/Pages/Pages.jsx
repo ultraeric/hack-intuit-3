@@ -11,6 +11,8 @@ import FacebookProvider, { Login } from 'react-facebook';
 
 import {LoginPage} from './LoginPage';
 import {NewUser} from './NewUser';
+import {Home} from './Home';
+import {NewGoal} from './NewGoal';
 
 class Pages extends React.Component {
   constructor() {
@@ -24,6 +26,8 @@ class Pages extends React.Component {
         <Route path='*' render={() => {window.scrollTo(0, 0); return null;}}/>
         <Switch>
           <Route path='/newuser' component={NewUser}/>
+          <Route path='/home' component={Home}/>
+          <Route path='/newgoal' component={NewGoal}/>
           <Route path='/' component={LoginPage}/>
         </Switch>
       </div>

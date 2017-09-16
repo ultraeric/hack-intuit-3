@@ -5,21 +5,27 @@ import {Guac} from 'guac-hoc/lib/Guac';
 
 import {Button} from 'yui-md/lib/Button';
 
+import io from 'socket.io-client';
+/*
+  Props:
+  - tryLogin <function>
+*/
 class LoginButton extends React.Component {
   constructor() {
     super();
     this.bindAllMethods();
+    window.socket = window.socket || io('http://localhost:9080');
   }
 
   tryLogin() {
-    this.props.history.push('/newuser');
+    window.socket.emit('checkUserExists', {id: FB.getUserID()});
   }
 
   render() {
     return (
       <Login
         scope="email"
-        onResponse={this.tryLogin}
+        onResponse={this.props.tryLogin || this.tryLogin}
         onError={this.handleError}>
         <Button className={'centered'} {...this.props}>
           {this.props.verbose ? 'Login via Facebook' : 'Login'}

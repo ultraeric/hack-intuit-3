@@ -3,12 +3,26 @@ import {withRouter} from 'react-router';
 import {Guac} from 'guac-hoc/lib/Guac';
 import {Login} from 'react-facebook';
 
+import io from 'socket.io-client';
+
 import {LoginButton} from '../../Assets/LoginButton';
 
 class LoginPage extends React.Component {
   constructor() {
     super();
     this.bindAllMethods();
+    window.socket = window.socket || io('http://localhost:8081');
+    window.socket.on('userExists', (data) => {
+      console.log(data);
+      if (data.data) {
+        this.props.history.push('/home');
+      } else {
+        this.props.history.push('/newuser');
+      }
+    });
+    window.socket.on('redirectHome', (data) => {
+      this.props.history.push('/home');
+    });
   }
 
   render() {
@@ -22,13 +36,13 @@ class LoginPage extends React.Component {
           Your personal finance manager
         </h4>
         <div style={{height: '80px'}}/>
-        <LoginButton large verbose/>
+        <LoginButton verbose/>
       </div>
     );
   }
 }
 
-LoginPage = Guac(LoginPage);
+LoginPage = withRouter(Guac(LoginPage));
 
 export default LoginPage;
 export {LoginPage};
