@@ -62,6 +62,7 @@ function goal(id, msg, db, sendTextMessage) {
     (rows) => {
       for (var i in rows) {
         row[i] = 'Get ' + row[i].item + ' for ' + row[i].cost;
+        console.log(row[i]);
       }
       sendTextMessage(id, returnAll('Your goals: ', '', rows));
     }
