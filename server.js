@@ -63,6 +63,7 @@ function callback(id, json) {
   if (id === 1476525979102735) {
     return;
   }
+  console.log(json.type);
   if (json.type === 'text') {
     let msg = json.payload.text;
     console.log('Hi fam before');
