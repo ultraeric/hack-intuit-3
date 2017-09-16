@@ -51,8 +51,9 @@ def processImage(url):
         return None
     return json.dumps(total)
 
-url = sys.argv[1]
 me = socket.socket()
 me.connect(('localhost', 9080))
-me.sendall(processImage(url))
-me.close()
+
+while True:
+    url = me.recv(2048)
+    me.sendall(processImage(url))
