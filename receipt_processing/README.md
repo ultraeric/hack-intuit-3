@@ -2,7 +2,7 @@
 
 ### This is a work in progress
 
-Input a URL and attempt to send jsonified total expense of receipt in URL to socket, otherwise send None.
+Input an URL as `sys.argv[1]` and print jsonified total on stdout. None if undetectable.
 
 Usage: `python3 scan.py <url>`
 
