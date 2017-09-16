@@ -28,38 +28,72 @@ function addIO(server) {
       );
     });
     socket.on('newUser', function(data) {
-      const python = spawn('python3', ['../riskFactors/riskFactors.py',
-        parseDataToString(data.state),
-        parseDataToString(data.age)]);
+      setTimeout(() => {
+        const python = spawn('python3', ['../riskFactors/riskFactors.py',
+          parseDataToString(data.state),
+          parseDataToString(data.age)]);
 
-      try {
-        console.log('hello');
-        python.stdout.on('data', function (data) {
-        console.log('stdout data', data);
-        var risk = JSON.parse(data).risk;
-        db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
-                      parseDataToString(data.name) + '", "' +
-                      parseDataToString(data.country) + '", "' +
-                      parseDataToString(data.race) + '", "' +
-                      parseDataToString(data.age) + '", "' +
-                      parseDataToString(data.citizenship) + '", "' +
-                      parseDataToString(data.origin) + '", "' +
-                      parseDataToString(data.housing) + '", "' +
-                      parseDataToString(data.gender) + '", "' +
-                      parseDataToString(data.income) + '", "' +
-                      parseDataToString(data.state)
-                      + '", "' +
-                      parseDataToString(risk)
-                      + '")'
-                    );
-        python.stderr.on('data', (data) => {
-          console.log('stderr data', data);
-        })
-        socket.emit('redirectHome', {data: true});
-      });
-    } catch (exception) {
-      console.log('exception', exception);
-    }
+        try {
+          console.log('hello');
+          python.stdout.on('data', function (data) {
+          console.log('stdout data', data);
+          var risk = JSON.parse(data).risk;
+          db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
+                        parseDataToString(data.name) + '", "' +
+                        parseDataToString(data.country) + '", "' +
+                        parseDataToString(data.race) + '", "' +
+                        parseDataToString(data.age) + '", "' +
+                        parseDataToString(data.citizenship) + '", "' +
+                        parseDataToString(data.origin) + '", "' +
+                        parseDataToString(data.housing) + '", "' +
+                        parseDataToString(data.gender) + '", "' +
+                        parseDataToString(data.income) + '", "' +
+                        parseDataToString(data.state)
+                        + '", "' +
+                        parseDataToString(risk)
+                        + '")'
+                      );
+            python.stderr.on('data', (data) => {
+              console.log('stderr data', data);
+            })
+            socket.emit('redirectHome', {data: true});
+          });
+        } catch (exception) {
+          console.log('exception', exception);
+        }
+      }, 0);
+    //   const python = spawn('python3', ['../riskFactors/riskFactors.py',
+    //     parseDataToString(data.state),
+    //     parseDataToString(data.age)]);
+    //
+    //   try {
+    //     console.log('hello');
+    //     python.stdout.on('data', function (data) {
+    //     console.log('stdout data', data);
+    //     var risk = JSON.parse(data).risk;
+    //     db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
+    //                   parseDataToString(data.name) + '", "' +
+    //                   parseDataToString(data.country) + '", "' +
+    //                   parseDataToString(data.race) + '", "' +
+    //                   parseDataToString(data.age) + '", "' +
+    //                   parseDataToString(data.citizenship) + '", "' +
+    //                   parseDataToString(data.origin) + '", "' +
+    //                   parseDataToString(data.housing) + '", "' +
+    //                   parseDataToString(data.gender) + '", "' +
+    //                   parseDataToString(data.income) + '", "' +
+    //                   parseDataToString(data.state)
+    //                   + '", "' +
+    //                   parseDataToString(risk)
+    //                   + '")'
+    //                 );
+    //     python.stderr.on('data', (data) => {
+    //       console.log('stderr data', data);
+    //     })
+    //     socket.emit('redirectHome', {data: true});
+    //   });
+    // } catch (exception) {
+    //   console.log('exception', exception);
+    // }
     });
     socket.on('getUser',
     function (data) {
