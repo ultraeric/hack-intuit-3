@@ -4,6 +4,8 @@
 
 Input a URL and attempt to return total expense of receipt in URL, otherwise None.
 
+Usage: `python3 scan.py <url>`
+
 ### TODO:
 - Train Tesserac to better recognize receipt font
 - Itemize reciept and return full dictionary
