@@ -16,10 +16,22 @@ function processing(id, msg, db, sendTextMessage) {
         && (msg.includes('past') || msg.includes('last'))) {
           if (msg.includes('week')) {
             db.all('SELECT amount FROM transactions WHERE date > 24 AND date <= 30 AND id=' + id.toString(),
-            (rows) => returnAll('Your past week\'s transactions: ', ',   Used $', rows));
+            (rows) => {
+              if (rows) {
+                return returnAll('Your past week\'s transactions: ', ',   Used $', rows);
+              } else {
+                return 'No transactions.';
+              }
+            });
           } else {
             db.all('SELECT * FROM transactions WHERE date > 24 AND date <= 30',
-            (rows) => returnAll('Your past week\'s transactions: ', ' Used $', rows));
+            (rows) => {
+              if (rows) {
+                returnAll('Your past week\'s transactions: ', ' Used $', rows);
+              } else {
+                return 'No transactions';
+              }
+            });
           }
   }
   if (msg.includes('recurring expenses')) {
