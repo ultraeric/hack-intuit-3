@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import pytesseract
 import regex as re
@@ -11,10 +12,14 @@ try:
 except ImportError:
     from PIL import Image
 
+logging.basicConfig(filename='/tmp/scan.py.log', level=logging.DEBUG,
+                    format='[%(asctime)s][%(name)-12s][%(levelname)-8s] %(message)s')
+
 # Returns dictionary mapping total to price. None if unable generate dict.
 def processImage(url):
-
+    logging.info("=== STARTING SCAN.PY ===")
     def download(url, file_name):
+        logging.debug("download(%s, %s)", url, file_name)
         with open(file_name, "wb") as file:
             response = get(url)
             file.write(response.content)
@@ -25,6 +30,7 @@ def processImage(url):
     r = re.compile('(.*TOTAL.*){s<=3}')
 
     receipt = pytesseract.image_to_string(Image.open('/tmp/image'), config = '-psm 6').splitlines()
+    logging.debug("Receipt: %s", receipt)
     matches = [string for string in receipt if re.match(regex, string)]
     total = [string for string in receipt if re.match(r, string)]
 
@@ -54,6 +60,7 @@ def processImage(url):
     except:
         #print("Couldn't find a total.")
         pass
+    logging.debug(total)
     return json.dumps(total)
 
 print(processImage(sys.argv[1]))
