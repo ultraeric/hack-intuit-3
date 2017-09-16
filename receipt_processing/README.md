@@ -4,7 +4,7 @@
 
 Input a URL and attempt to return total expense of receipt in URL, otherwise None.
 
-### TODO:
+*TODO:
 
 -Train Tesserac to better recognize receipt font
 
