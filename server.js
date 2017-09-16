@@ -65,7 +65,10 @@ function callback(id, json) {
   }
   if (json.type === 'text') {
     let msg = json.payload.text;
+    console.log('Hi fam before');
     let result = decisionHandler(id, msg, db, sendTextMessage);
+    console.log('Hi fam');
+    console.log(result);
     if (result) {
       sendTextMessage(id, result);
     }
