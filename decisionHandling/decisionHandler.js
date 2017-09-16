@@ -46,7 +46,7 @@ function log(id, msg, db) {
 
 // Return average amount spent per day
 function spent(id, msg, db) {
-  return 'Placeholder for time spent!';
+  return 'Placeholder for average money spent!';
 }
 
 export default decisionHandler;
