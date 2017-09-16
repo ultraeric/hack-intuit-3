@@ -33,7 +33,7 @@ function addIO(server) {
         parseDataToString(data.state),
         parseDataToString(data.age)]);
       python.stdout.on('data', (data) => {
-
+        console.log(data);
         var risk = JSON.parse(data).risk;
         db.run('INSERT INTO users VALUES ("' + parseDataToString(data.id) + '", "' +
                       parseDataToString(data.name) + '", "' +
