@@ -1,4 +1,4 @@
-function processing(id, db) {
+function processing(id, msg, db) {
 
 }
 export default processing;
