@@ -2,7 +2,7 @@
 
 ### This is a work in progress
 
-Input a URL and attempt to return total expense of receipt in URL, otherwise None.
+Input a URL and attempt to send jsonified total expense of receipt in URL to socket, otherwise send None.
 
 Usage: `python3 scan.py <url>`
 
