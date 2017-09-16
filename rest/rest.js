@@ -28,7 +28,7 @@ function addIO(server) {
     });
     socket.on('newUser', function(data) {
       console.log(JSON.stringify({state: parseDataToString(data.state),
-      age: parseInt(parseDataToString(data.age))});
+      age: parseInt(parseDataToString(data.age))}));
       const python = spawn('python3', ['./riskFactors/riskFactors.py',
         JSON.stringify({state: parseDataToString(data.state),
         age: parseInt(parseDataToString(data.age))})]);
