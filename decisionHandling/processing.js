@@ -18,18 +18,18 @@ function processing(id, msg, db, sendTextMessage) {
             db.all('SELECT amount FROM transactions WHERE date > 24 AND date <= 30 AND id=' + id.toString(),
             (rows) => {
               if (rows) {
-                return returnAll('Your past week\'s transactions: ', ',   Used $', rows);
+                sendTextMessage(id, returnAll('Your past week\'s transactions: ', ',   Used $', rows));
               } else {
-                return 'No transactions.';
+                sendTextMessage(id, 'No transactions.');
               }
             });
           } else {
             db.all('SELECT * FROM transactions WHERE id='  + id.toString(),
             (rows) => {
               if (rows) {
-                return returnAll('Your past week\'s transactions: ', ' Used $', rows);
+                sendTextMessage(id, returnAll('Your past week\'s transactions: ', ' Used $', rows));
               } else {
-                return 'No transactions';
+                sendTextMessage(id, 'No transactions');
               }
             });
           }
