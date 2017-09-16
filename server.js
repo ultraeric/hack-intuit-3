@@ -71,7 +71,7 @@ function callback(id, json) {
       sendTextMessage(id, 'Total Spent: ' + JSON.parse(data).total.toString());
     });
     python.stderr.on('data', (data) => {
-      console.log(data);
+      console.log(data.toString());
     })
   }
 }
