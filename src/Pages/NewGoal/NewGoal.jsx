@@ -15,7 +15,7 @@ class NewGoal extends React.Component {
       newGoalData: {
       }
     };
-    window.socket = window.socket || io('http://localhost:8081');
+    window.socket = window.socket || io('https://localhost:9443');
     window.socket.on('redirectHome', (data) => {
       this.props.history.push('/home');
     });
