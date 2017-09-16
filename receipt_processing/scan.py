@@ -4,6 +4,7 @@ import pytesseract
 import regex as re
 import socket
 import sys
+import spell
 from requests import get
 
 try:
@@ -33,6 +34,10 @@ def processImage(url):
 
     for match in matches:
         print(match)
+        check = match.split()
+        for i in range(len(check)):
+            if check[i].isalpha():
+                print("{} would correct to {}".format(check[i], spell.correction(check[i])))
     for tote in total:
         for word in tote.split():
             if re.match(regex, word):
@@ -51,9 +56,4 @@ def processImage(url):
         return None
     return json.dumps(total)
 
-me = socket.socket()
-me.connect(('localhost', 9080))
-
-while True:
-    url = me.recv(2048)
-    me.sendall(processImage(url))
+print(processImage(sys.argv[1]))
