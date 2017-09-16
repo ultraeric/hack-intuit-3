@@ -54,7 +54,6 @@ def processImage(url):
         total['total'] = max(prices)
     except:
         #print("Couldn't find a total.")
-        return None
     return json.dumps(total)
 
 print(processImage(sys.argv[1]))
