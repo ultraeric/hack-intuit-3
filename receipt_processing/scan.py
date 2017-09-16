@@ -29,15 +29,14 @@ def processImage(url):
     matches = [string for string in receipt if re.match(regex, string)]
     total = [string for string in receipt if re.match(r, string)]
 
+    # Uncomment for debugging purposes
+    '''
     for line in receipt:
         print(line)
-
     for match in matches:
         print(match)
-        check = match.split()
-        for i in range(len(check)):
-            if check[i].isalpha():
-                print("{} would correct to {}".format(check[i], spell.correction(check[i])))
+    '''
+
     for tote in total:
         for word in tote.split():
             if re.match(regex, word):
