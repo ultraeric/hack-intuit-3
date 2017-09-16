@@ -33,7 +33,7 @@ class LoginPage extends React.Component {
           Welcome to FinTel
         </h2>
         <h4 className='centered'>
-          Your personal finance manager
+          Financial Intelligence for a Mobile Generation
         </h4>
         <div style={{height: '80px'}}/>
         <LoginButton verbose/>
