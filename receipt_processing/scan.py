@@ -37,7 +37,9 @@ def processImage(url):
         print(match)
     '''
 
+    prices = []
     for tote in total:
+        print(tote)
         for word in tote.split():
             if re.match(regex, word):
                 try:
@@ -49,9 +51,10 @@ def processImage(url):
     os.remove('image')
     total = {}
     try:
-        print("Detected total: {}".format(max(prices)))
+        #print("Detected total: {}".format(max(prices)))
         total['total'] = max(prices)
     except:
+        #print("Couldn't find a total.")
         return None
     return json.dumps(total)
 
