@@ -31,22 +31,22 @@ function help(id, msg) {
 
 // Returns financial advice!
 function advise(id, msg) {
-  return 'Placeholder advise!'
+  return 'Placeholder advise!';
 }
 
 // Returns your progress to your financial goal
 function goal(id, msg, db) {
-  return 'Placeholder goal!'
+  return 'Placeholder goal!';
 }
 
 // Manually log a user's transaction
 function log(id, msg, db) {
-  return 'Placeholder logging success message!'
+  return 'Placeholder logging success message!';
 }
 
 // Return average amount spent per day
 function spent(id, msg, db) {
-  return 'Placeholder for time spent!'
+  return 'Placeholder for time spent!';
 }
 
 export default decisionHandler;
